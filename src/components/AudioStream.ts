@@ -18,6 +18,44 @@ export const setUpAnalyser = async (): Promise<AnalyserNode> => {
   return analyser;
 };
 
+export const initCanvas = async (
+  canvasCtx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+) => {
+  if (!canvasCtx) {
+    console.error("No canvas context available.");
+    return;
+  }
+
+  canvasCtx.fillStyle = "rgb(200,200,200)";
+  canvasCtx.clearRect(0, 0, width, height);
+};
+
+export const drawFrequencyAsBarChart = (
+  canvasCtx: CanvasRenderingContext2D,
+  width: number,
+  height: number,
+  data: Uint8Array,
+  bufferLength: number,
+) => {
+  canvasCtx.fillStyle = "rgb(0,0,0)";
+  canvasCtx.clearRect(0, 0, width, height);
+
+  const barWidth = (width / bufferLength) * 2.5;
+
+  let x = 0;
+
+  for (let i = 0; i < bufferLength; i++) {
+    const barHeight = data[i];
+
+    canvasCtx.fillStyle = "rgb(90,230,250)";
+    canvasCtx.fillRect(x, height - barHeight, barWidth, barHeight);
+
+    x += barWidth + 1;
+  }
+};
+
 export const AnalyzeSound = async (
   canvasCtx: CanvasRenderingContext2D | null,
   width: number,
@@ -33,30 +71,12 @@ export const AnalyzeSound = async (
   const data = new Uint8Array(bufferLength);
   let drawVisual;
 
-  canvasCtx.fillStyle = "rgb(200,200,200)";
-  canvasCtx.clearRect(0, 0, width, height);
+  await initCanvas(canvasCtx, width, height);
 
   const draw = () => {
     drawVisual = requestAnimationFrame(draw);
     analyser.getByteFrequencyData(data);
-
-    canvasCtx.fillStyle = "rgb(0,0,0)";
-    canvasCtx.clearRect(0, 0, width, height);
-
-    const barWidth = (width / bufferLength) * 2.5;
-
-    console.log([...data.slice(0, 10)]);
-
-    let x = 0;
-
-    for (let i = 0; i < bufferLength; i++) {
-      const barHeight = data[i];
-
-      canvasCtx.fillStyle = "rgb(90,230,250)";
-      canvasCtx.fillRect(x, height - barHeight, barWidth, barHeight);
-
-      x += barWidth + 1;
-    }
+    drawFrequencyAsBarChart(canvasCtx, width, height, data, bufferLength);
   };
   draw();
 };
