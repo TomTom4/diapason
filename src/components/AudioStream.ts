@@ -6,6 +6,18 @@ export const getMicStream = async () => {
   return stream;
 };
 
+export const setUpAnalyser = async (): Promise<AnalyserNode> => {
+  const audioCtx = new AudioContext();
+  const analyser = audioCtx.createAnalyser();
+  const stream = await getMicStream();
+
+  const source = audioCtx.createMediaStreamSource(stream);
+  source.connect(analyser);
+  analyser.fftSize = 256;
+
+  return analyser;
+};
+
 export const AnalyzeSound = async (
   canvasCtx: CanvasRenderingContext2D | null,
   width: number,
@@ -16,13 +28,7 @@ export const AnalyzeSound = async (
     return;
   }
 
-  const audioCtx = new AudioContext();
-  const analyser = audioCtx.createAnalyser();
-  const stream = await getMicStream();
-
-  const source = audioCtx.createMediaStreamSource(stream);
-  source.connect(analyser);
-  analyser.fftSize = 256;
+  const analyser = await setUpAnalyser();
   const bufferLength = analyser.frequencyBinCount;
   const data = new Uint8Array(bufferLength);
   let drawVisual;
