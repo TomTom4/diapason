@@ -15,7 +15,7 @@ export default function AudioVisualizer() {
   return (
     <div>
       <p>this is the audio visualizer</p>
-      <canvas ref={canvasRef} width={550} height={200} />
+      <canvas ref={canvasRef} width={350} height={200} />
       <button onClick={start} type="button">
         start
       </button>

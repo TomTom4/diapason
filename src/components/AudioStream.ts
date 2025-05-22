@@ -14,7 +14,6 @@ export const setUpAnalyser = async (): Promise<AnalyserNode> => {
   const source = audioCtx.createMediaStreamSource(stream);
   source.connect(analyser);
   analyser.fftSize = 256;
-
   return analyser;
 };
 
