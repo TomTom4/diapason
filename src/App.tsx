@@ -1,9 +1,12 @@
+import AppBar from "./components/ui/appbar";
 import AudioVisualizer from "./components/AudioVisualizer";
+import NoteVisualizer from "./components/NoteVisualizer";
 
 function App() {
   return (
-    <div>
-      <p className="font-bold text-3xl"> hello world</p>
+    <div className="flex flex-col">
+      <AppBar />
+      <NoteVisualizer />
       <AudioVisualizer />
     </div>
   );
