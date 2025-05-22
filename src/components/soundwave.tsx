@@ -7,7 +7,7 @@ export default function SoundWave() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <ellipse cx="122" cy="106.5" rx="17" ry="106.5" fill="#0F172A" />
+      <ellipse cx="122" cy="106.5" rx="17" ry="106.5" fill="#D9D9D9" />
       <ellipse cx="160.5" cy="106.5" rx="8.5" ry="73.5" fill="#D9D9D9" />
       <ellipse cx="188.5" cy="107" rx="6.5" ry="40" fill="#D9D9D9" />
       <ellipse cx="237.5" cy="107" rx="6.5" ry="40" fill="#D9D9D9" />
