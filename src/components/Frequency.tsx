@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, PropsWithChildren, createContext } from "react";
 import { getMicStream } from "./AudioStream";
 
 const context = new AudioContext();
@@ -7,7 +7,9 @@ const stream = await getMicStream();
 
 const source = context.createMediaStreamSource(stream);
 source.connect(analyser);
-analyser.fftSize = 4096 * 2;
+analyser.fftSize = 8192;
+
+export const frequencyContext = createContext(0);
 
 const extractFundamental = (buffer: Uint8Array) => {
   console.log(analyser.frequencyBinCount);
@@ -16,16 +18,8 @@ const extractFundamental = (buffer: Uint8Array) => {
   return (index * 12000) / analyser.frequencyBinCount;
 };
 
-export default function Frequency() {
+export default function Frequency(props: PropsWithChildren) {
   const [frequency, setFrequency] = useState<number | null>(null);
-
-  const toggleContext = () => {
-    if (context.state === "suspended") {
-      context.resume();
-    } else {
-      context.suspend();
-    }
-  };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -35,7 +29,22 @@ export default function Frequency() {
       const fundamental = extractFundamental(data);
       setFrequency(fundamental);
     }, 100);
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
-  return <p onClick={toggleContext}> freq:{frequency} Hz</p>;
+  useEffect(() => {
+    if (context.state === "suspended") {
+      context.resume();
+    } else {
+      context.suspend();
+    }
+  }, [context.state]);
+
+  return (
+    <frequencyContext.Provider value={frequency || 0}>
+      {props.children}
+    </frequencyContext.Provider>
+  );
 }
