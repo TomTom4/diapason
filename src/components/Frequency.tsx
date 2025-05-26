@@ -12,7 +12,6 @@ analyser.fftSize = 8192;
 export const frequencyContext = createContext(0);
 
 const extractFundamental = (buffer: Uint8Array) => {
-  console.log(analyser.frequencyBinCount);
   const fundamentalPike = Math.max(...buffer);
   const index = buffer.indexOf(fundamentalPike);
   return (index * 12000) / analyser.frequencyBinCount;
