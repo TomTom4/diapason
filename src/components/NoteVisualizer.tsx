@@ -5,6 +5,28 @@ import { frequencyContext } from "./Frequency";
 
 export default function NoteVisualizer() {
   const frequency = useContext(frequencyContext);
+
+  const frequencyToNote = (frequency: number): string => {
+    const noteNames = [
+      "C",
+      "C#",
+      "D",
+      "D#",
+      "E",
+      "F",
+      "F#",
+      "G",
+      "G#",
+      " A",
+      "A#",
+      "B",
+    ];
+    const midiCode = Math.round(69 + 12 * Math.log2(frequency / 440));
+    const index = midiCode % 12;
+    const octave = Math.floor(midiCode / 12) - 1;
+    return `${noteNames[index]}${octave}`;
+  };
+
   return (
     <div className="flex flex-col w-auto">
       <p className="text-xl font-semibold m-auto p-6"> Start playing ! </p>
@@ -12,7 +34,9 @@ export default function NoteVisualizer() {
         <Button variant="outline" className="rounded-3xl">
           -
         </Button>
-        <h2 className="text-5xl font-extrabold">{Math.round(frequency)} Hz</h2>
+        <h2 className="text-5xl font-extrabold">
+          {frequencyToNote(frequency)}
+        </h2>
         <Button variant="outline" className="rounded-3xl">
           +
         </Button>
