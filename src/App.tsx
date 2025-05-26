@@ -7,8 +7,9 @@ function App() {
   return (
     <div className="flex flex-col">
       <AppBar />
-      <NoteVisualizer />
-      <Frequency />
+      <Frequency>
+        <NoteVisualizer />
+      </Frequency>
     </div>
   );
 }

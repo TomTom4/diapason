@@ -1,15 +1,18 @@
+import { useContext } from "react";
 import { Button } from "./ui/button";
 import SoundWave from "./soundwave";
+import { frequencyContext } from "./Frequency";
 
 export default function NoteVisualizer() {
+  const frequency = useContext(frequencyContext);
   return (
     <div className="flex flex-col w-auto">
       <p className="text-xl font-semibold m-auto p-6"> Start playing ! </p>
-      <div className="flex p-2 justify-between items-center w-64 m-auto">
+      <div className="flex p-2 justify-between items-center w-80 m-auto">
         <Button variant="outline" className="rounded-3xl">
           -
         </Button>
-        <h2 className="text-5xl font-extrabold">_</h2>
+        <h2 className="text-5xl font-extrabold">{Math.round(frequency)} Hz</h2>
         <Button variant="outline" className="rounded-3xl">
           +
         </Button>
