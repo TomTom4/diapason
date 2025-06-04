@@ -7,7 +7,7 @@ const stream = await getMicStream();
 
 const source = context.createMediaStreamSource(stream);
 source.connect(analyser);
-analyser.fftSize = 8192;
+analyser.fftSize = 32768;
 
 export const frequencyContext = createContext(0);
 
