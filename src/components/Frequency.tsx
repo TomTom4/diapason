@@ -36,8 +36,6 @@ export default function Frequency(props: PropsWithChildren) {
   useEffect(() => {
     if (context.state === "suspended") {
       context.resume();
-    } else {
-      context.suspend();
     }
   }, [context.state]);
 
