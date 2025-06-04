@@ -27,18 +27,34 @@ export default function NoteVisualizer() {
     return `${noteNames[index]}${octave}`;
   };
 
+  const noteCents = (frequency: number): number => {
+    const midiCode = Math.round(69 + 12 * Math.log2(frequency / 440));
+    const refFrequency = 440.0 * 2 ** ((midiCode - 69) / 12);
+    return Math.round(1200 * Math.log2(frequency / refFrequency));
+  };
+
   return (
     <div className="flex flex-col w-auto">
       <p className="text-xl font-semibold m-auto p-6"> Start playing ! </p>
       <div className="flex p-2 justify-between items-center w-80 m-auto">
-        <Button variant="outline" className="rounded-3xl">
-          -
+        <Button
+          variant="outline"
+          className={
+            noteCents(frequency) < 0 ? "rounded-3xl bg-blue-200" : "rounded-3xl"
+          }
+        >
+          {noteCents(frequency) < 0 ? noteCents(frequency) : "-"}
         </Button>
         <h2 className="text-5xl font-extrabold">
           {frequencyToNote(frequency)}
         </h2>
-        <Button variant="outline" className="rounded-3xl">
-          +
+        <Button
+          variant="outline"
+          className={
+            noteCents(frequency) > 0 ? "rounded-3xl bg-blue-200" : "rounded-3xl"
+          }
+        >
+          {noteCents(frequency) > 0 ? noteCents(frequency) : "+"}
         </Button>
       </div>
       <div className="m-auto p-16">
