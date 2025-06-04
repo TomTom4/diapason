@@ -40,10 +40,12 @@ export default function NoteVisualizer() {
         <Button
           variant="outline"
           className={
-            noteCents(frequency) < 0 ? "rounded-3xl bg-blue-200" : "rounded-3xl"
+            noteCents(frequency) < -10
+              ? "rounded-3xl bg-blue-200"
+              : "rounded-3xl"
           }
         >
-          {noteCents(frequency) < 0 ? noteCents(frequency) : "-"}
+          {noteCents(frequency) < -10 ? noteCents(frequency) : "-"}
         </Button>
         <h2 className="text-5xl font-extrabold">
           {frequencyToNote(frequency)}
@@ -51,10 +53,12 @@ export default function NoteVisualizer() {
         <Button
           variant="outline"
           className={
-            noteCents(frequency) > 0 ? "rounded-3xl bg-blue-200" : "rounded-3xl"
+            noteCents(frequency) > 10
+              ? "rounded-3xl bg-blue-200"
+              : "rounded-3xl"
           }
         >
-          {noteCents(frequency) > 0 ? noteCents(frequency) : "+"}
+          {noteCents(frequency) > 10 ? noteCents(frequency) : "+"}
         </Button>
       </div>
       <div className="m-auto p-16">
