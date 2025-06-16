@@ -62,7 +62,7 @@ export default function NoteVisualizer() {
         </Button>
       </div>
       <div className="m-auto p-16">
-        <SoundWave />
+        <SoundWave cents={noteCents(frequency)} />
       </div>
       <div className="m-auto flex gap-2">
         <Button variant="outline" className="rounded-3xl">
