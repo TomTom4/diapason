@@ -58,7 +58,7 @@ export default function NoteVisualizer() {
               : "rounded-3xl"
           }
         >
-          {noteCents(frequency) > 10 ? noteCents(frequency) : "+"}
+          {noteCents(frequency) > 10 ? "+" + noteCents(frequency) : "+"}
         </Button>
       </div>
       <div className="m-auto p-16">
