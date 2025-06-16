@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Button } from "./ui/button";
 import SoundWave from "./soundwave";
+import Tuning from "./tuning";
 import { frequencyContext } from "./Frequency";
 
 export default function NoteVisualizer() {
@@ -64,26 +65,7 @@ export default function NoteVisualizer() {
       <div className="m-auto p-16">
         <SoundWave cents={noteCents(frequency)} />
       </div>
-      <div className="m-auto flex gap-2">
-        <Button variant="outline" className="rounded-3xl">
-          E
-        </Button>
-        <Button variant="outline" className="rounded-3xl">
-          A
-        </Button>
-        <Button variant="outline" className="rounded-3xl">
-          D
-        </Button>
-        <Button variant="outline" className="rounded-3xl">
-          C
-        </Button>
-        <Button variant="outline" className="rounded-3xl">
-          B
-        </Button>
-        <Button variant="outline" className="rounded-3xl">
-          E
-        </Button>
-      </div>
+      <Tuning currentNote={frequencyToNote(frequency)} />
     </div>
   );
 }
