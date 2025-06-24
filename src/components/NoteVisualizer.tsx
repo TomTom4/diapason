@@ -25,7 +25,10 @@ export default function NoteVisualizer() {
     const midiCode = Math.round(69 + 12 * Math.log2(frequency / 440));
     const index = midiCode % 12;
     const octave = Math.floor(midiCode / 12) - 1;
-    return `${noteNames[index]}${octave}`;
+
+    if (noteNames[index] && octave != Infinity)
+      return `${noteNames[index]}${octave}`;
+    return "_";
   };
 
   const noteCents = (frequency: number): number => {
@@ -34,9 +37,23 @@ export default function NoteVisualizer() {
     return Math.round(1200 * Math.log2(frequency / refFrequency));
   };
 
+  const messages = (cents: number) => {
+    if (cents < -10) {
+      return "too low";
+    }
+    if (cents > 10) {
+      return "too high";
+    }
+    return "in tune!";
+  };
+
   return (
     <div className="flex flex-col w-auto">
-      <p className="text-xl font-semibold m-auto p-6"> Start playing ! </p>
+      <p className="text-xl font-semibold m-auto p-6">
+        {frequencyToNote(frequency) == "_"
+          ? "start playing! "
+          : messages(noteCents(frequency))}
+      </p>
       <div className="flex p-2 justify-between items-center w-80 m-auto">
         <Button
           variant="outline"
