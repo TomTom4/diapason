@@ -1,5 +1,12 @@
 import { useState, useEffect, PropsWithChildren, createContext } from "react";
-import { getMicStream } from "./AudioStream";
+
+const getMicStream = async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: false,
+    audio: true,
+  });
+  return stream;
+};
 
 const context = new AudioContext();
 const analyser = context.createAnalyser();
