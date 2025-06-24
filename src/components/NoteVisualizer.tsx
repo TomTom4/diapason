@@ -42,7 +42,7 @@ export default function NoteVisualizer() {
           variant="outline"
           className={
             noteCents(frequency) < -10
-              ? "rounded-3xl bg-blue-200"
+              ? "rounded-3xl bg-primary"
               : "rounded-3xl"
           }
         >
@@ -54,9 +54,7 @@ export default function NoteVisualizer() {
         <Button
           variant="outline"
           className={
-            noteCents(frequency) > 10
-              ? "rounded-3xl bg-blue-200"
-              : "rounded-3xl"
+            noteCents(frequency) > 10 ? "rounded-3xl bg-primary" : "rounded-3xl"
           }
         >
           {noteCents(frequency) > 10 ? "+" + noteCents(frequency) : "+"}
