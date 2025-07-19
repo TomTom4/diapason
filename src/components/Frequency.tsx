@@ -18,10 +18,52 @@ analyser.fftSize = 32768;
 
 export const frequencyContext = createContext(0);
 
+const indexToFrequency = (
+  index: number,
+  sampleRate: number,
+  fftSize: number,
+): number => {
+  return (index / (fftSize / 2)) * (sampleRate / 2);
+};
+
+const frequencyToIndex = (
+  frequency: number,
+  sampleRate: number,
+  fftSize: number,
+): number => {
+  return Math.floor((frequency / (sampleRate / 2)) * (fftSize / 2));
+};
+
 const extractFundamental = (buffer: Uint8Array) => {
-  const fundamentalPike = Math.max(...buffer);
-  const index = buffer.indexOf(fundamentalPike);
-  return (index * 12000) / analyser.frequencyBinCount;
+  const sampleRate = context.sampleRate;
+  const fftSize = analyser.fftSize;
+
+  const minFreq = 60;
+  const maxFreq = 1200;
+
+  const minIndex = frequencyToIndex(minFreq, sampleRate, fftSize);
+  const maxIndex = frequencyToIndex(maxFreq, sampleRate, fftSize);
+
+  const zoomedBuffer: Uint8Array = buffer.slice(minIndex, maxIndex);
+
+  let pikeAmplitude = 0;
+  let pikeIndex = 0;
+
+  zoomedBuffer.forEach((element, index) => {
+    if (element > pikeAmplitude && element > 50) {
+      pikeAmplitude = element;
+      pikeIndex = index;
+    }
+  });
+
+  console.log(` current detected index: ${pikeIndex} `);
+  const frequency = indexToFrequency(
+    pikeIndex + minIndex,
+    context.sampleRate,
+    analyser.fftSize,
+  );
+  console.log(` current detected frequency:${frequency} `);
+  return frequency;
 };
 
 export default function Frequency(props: PropsWithChildren) {
